@@ -105,16 +105,6 @@
           <a class="btn btn-primary rounded-pill px-4 fw-semibold" href="{base}/blog">Blog</a>
         </li>
       </ul>
-
-      <button class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center border-0 toggle-btn"
-              on:click={toggleTheme} aria-label="Toggle dark mode" style="width: 40px; height: 40px;">
-        <i class="bi {isDarkMode ? 'bi-moon-stars-fill' : 'bi-sun-fill'} fs-5 theme-icon"></i>
-      </button>
-
-      <button class="navbar-toggler d-lg-none border-0 bg-transparent p-0 ms-1" type="button" 
-              data-bs-toggle="collapse" data-bs-target="#mobileNav" aria-label="Toggle navigation menu">
-        <i class="bi bi-grid-fill fs-2 text-primary" aria-hidden="true"></i>
-      </button>
     </div>
   </nav>
 </header>
@@ -154,8 +144,7 @@
   .footer-link { color: var(--color-text-muted); transition: all 0.2s; font-weight: 500; }
   .footer-link:hover { color: var(--color-accent); transform: translateY(-2px); display: inline-block; }
 
-  .theme-icon { transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .toggle-btn:hover .theme-icon { transform: rotate(45deg) scale(1.1); }
+
   
   @keyframes steam { 0% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
 </style>
