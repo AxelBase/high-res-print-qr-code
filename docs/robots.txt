@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Allow: /
 
-Sitemap: https://https://axelbase.github.io/arn-parser/sitemap.xml
+Sitemap: https://high-res-print-qr-code.vercel.app/sitemap.xml

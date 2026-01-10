@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../app.css';
   import { base } from '$app/paths';
-  import { slide, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { onMount } from 'svelte';
 
   // --- Theme Toggle Logic ---
@@ -28,9 +28,7 @@
     localStorage.setItem('theme', theme);
   }
 
-  // --- Buy Me A Coffee Logic ---
-  const paypalUsername = 'AxelLab427';
-  const donationAmounts = [1, 3, 5, 10];
+  // --- Buy Me A Coffee + Bitcoin Dropdown ---
   let isDropdownOpen = false;
 
   function toggleDropdown() {
@@ -54,12 +52,14 @@
       }
     };
   }
+
+  const currentYear = new Date().getFullYear();
 </script>
 
 <header class="fixed-top p-3 w-100" style="pointer-events: none; z-index: 1040;">
-  <nav class="container glass rounded-pill px-4 py-2 d-flex justify-content-between align-items-center" 
+  <nav class="container glass rounded-pill px-4 py-2 d-flex justify-content-between align-items-center"
        style="pointer-events: auto; max-width: 1200px; transition: all 0.3s ease;">
-    
+
     <div class="d-flex align-items-center gap-3">
       <a href="{base}/" class="d-flex align-items-center gap-2 logo-group text-decoration-none">
         <div class="logo-wrapper">
@@ -69,26 +69,73 @@
       </a>
 
       <div class="position-relative ms-2 ms-md-3" use:clickOutside on:click_outside={closeDropdown}>
-        <button 
-          class="btn btn-coffee d-flex align-items-center gap-2" 
+        <button
+          class="btn btn-coffee d-flex align-items-center gap-2"
           on:click={toggleDropdown}
           aria-label="Support this project"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="coffee-icon">
-            <path d="M12.35,22.2L12,22A10,10,0,0,1,2,12V10A2,2,0,0,1,4,8H7.2A5.13,5.13,0,0,1,12,3A5.13,5.13,0,0,1,16.8,8H20A2,2,0,0,1,22,10V12A10,10,0,0,1,12.35,22.2M4,10V12A8,8,0,0,0,12,20A8,8,0,0,0,20,12V10H16.8A5.11,5.11,0,0,1,12.5,5.12A5.15,5.15,0,0,1,7.2,10H4Z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 13V10H4V13C4 14.38 4.5 15.63 5.31 16.58L11.64 19H12.36L18.69 16.58C19.5 15.63 20 14.38 20 13M2 21V19H20V21H2M20 8V5H4V8H20M16 2H8V4H16V2Z"/>
           </svg>
-          <span class="d-none d-sm-inline">Buy me a coffee</span>
+          <span class="d-none d-sm-inline">Support</span>
         </button>
 
         {#if isDropdownOpen}
-          <div class="dropdown-menu-custom glass" transition:fly={{ y: 10, duration: 250 }}>
-            <div class="d-flex flex-column gap-1">
-              {#each donationAmounts as amount}
-                <a href="https://paypal.me/{paypalUsername}/{amount}" target="_blank" rel="noopener noreferrer"
-                   on:click={closeDropdown} class="donation-link">
-                  ${amount}
-                </a>
-              {/each}
+          <div
+            class="dropdown-menu-custom glass"
+            transition:fly={{ y: 10, duration: 250 }}
+            style="min-width: 220px;"
+          >
+            <div class="d-flex flex-column gap-1 p-1">
+              <a
+                href="https://buymeacoffee.com/axelbase"
+                target="_blank"
+                rel="noopener noreferrer"
+                on:click={closeDropdown}
+                class="donation-link"
+              >
+                <span class="amount">$3</span> One Coffee
+              </a>
+
+              <a
+                href="https://buymeacoffee.com/axelbase"
+                target="_blank"
+                rel="noopener noreferrer"
+                on:click={closeDropdown}
+                class="donation-link"
+              >
+                <span class="amount">$5</span> Two Coffees
+              </a>
+
+              <a
+                href="https://buymeacoffee.com/axelbase"
+                target="_blank"
+                rel="noopener noreferrer"
+                on:click={closeDropdown}
+                class="donation-link"
+              >
+                <span class="amount">$10</span> Three Coffees
+              </a>
+
+              <a
+                href="https://buymeacoffee.com/axelbase"
+                target="_blank"
+                rel="noopener noreferrer"
+                on:click={closeDropdown}
+                class="donation-link custom-amount"
+              >
+                Custom Amount
+              </a>
+
+              <a
+                href="bitcoin:bc1q3p0e6vt492m4w4fpz5m2cl4zcfuqqkgaj6myc9?label=AxelBase&message=Buy%20me%20a%20coffee"
+                target="_blank"
+                rel="noopener noreferrer"
+                on:click={closeDropdown}
+                class="donation-link custom-amount bitcoin"
+              >
+                Buy via Bitcoin
+              </a>
             </div>
           </div>
         {/if}
@@ -113,7 +160,7 @@
 
 <footer class="relative glass border-top py-3 mt-auto" style="z-index: 1030;">
   <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center small text-muted">
-    <span class="fw-medium">&copy; {new Date().getFullYear()} AxelBase Multi-Purpose High-Resolution Print QR Generator</span>
+    <span class="fw-medium">© {currentYear} AxelBase Multi-Purpose High-Resolution Print QR Generator</span>
     <div class="d-flex gap-4 mt-2 mt-sm-0">
       <a href="{base}/privacy" class="footer-link">Privacy Policy</a>
       <a href="{base}/terms" class="footer-link">Terms of Service</a>
@@ -122,9 +169,10 @@
 </footer>
 
 <style>
+  /* ── Existing styles from File 2 ── */
   .navbar-brand-logo { height: 32px; width: auto; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
   .logo-group:hover .navbar-brand-logo { transform: rotate(15deg) scale(1.2); }
-  
+
   .brand-text { color: var(--color-text-main); transition: color 0.3s; }
   .logo-group:hover .brand-text { color: var(--signal-blue-hover); }
 
@@ -133,18 +181,78 @@
   .nav-link-custom:hover { color: var(--color-accent); }
   .nav-link-custom:hover::after { width: 70%; }
 
-  .btn-coffee { background: linear-gradient(135deg, #FFDD00, #FBB034); color: #3d3d3d; font-weight: 700; border: none; padding: 0.5rem 1.2rem; box-shadow: 0 4px 15px rgba(251, 176, 52, 0.4); font-size: 0.9rem; border-radius: 50px; transition: all 0.3s; }
-  .btn-coffee:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(251, 176, 52, 0.6); }
-  .coffee-icon { width: 18px; height: 18px; animation: steam 3s infinite ease-out; }
+  .btn-coffee {
+    background: linear-gradient(135deg, #FFDD00, #FBB034);
+    color: #3d3d3d;
+    font-weight: 700;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    box-shadow: 0 4px 15px rgba(251, 176, 52, 0.4);
+    font-size: 0.9rem;
+    border-radius: 50px;
+    transition: all 0.3s;
+  }
 
-  .dropdown-menu-custom { position: absolute; top: 120%; left: 50%; transform: translateX(-50%); min-width: 140px; padding: 0.5rem; border-radius: 20px; z-index: 1050; display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
-  .donation-link { display: block; padding: 10px; text-align: center; border-radius: 12px; font-weight: bold; color: var(--color-accent); background: rgba(255,255,255,0.4); margin-bottom: 4px; transition: all 0.2s ease; }
-  .donation-link:hover { background: #fff; color: var(--color-accent-hover); transform: translateX(5px); }
+  .btn-coffee:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(251, 176, 52, 0.6);
+  }
+  .dropdown-menu-custom {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 220px;
+    padding: 0.5rem;
+    border-radius: 20px;
+    z-index: 1050;
+    box-shadow: var(--glass-shadow);
+  }
+
+  .donation-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: var(--color-accent);
+    background: rgba(255,255,255,0.25);
+    transition: all 0.25s ease;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .donation-link:hover {
+    background: rgba(255,255,255,0.45);
+    transform: translateX(4px);
+    color: var(--color-accent-hover);
+  }
+
+  .donation-link .amount {
+    font-weight: 800;
+    color: currentColor;
+    min-width: 38px;
+  }
+
+  .donation-link.custom-amount {
+    justify-content: center;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    margin-top: 6px;
+    padding: 12px;
+    font-size: 0.97rem;
+  }
+
+  .donation-link.bitcoin {
+    color: #f7931a;
+  }
+
+  .donation-link.bitcoin:hover {
+    color: #f5c36a;
+  }
 
   .footer-link { color: var(--color-text-muted); transition: all 0.2s; font-weight: 500; }
   .footer-link:hover { color: var(--color-accent); transform: translateY(-2px); display: inline-block; }
 
-
-  
   @keyframes steam { 0% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
 </style>
